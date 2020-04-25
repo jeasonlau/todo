@@ -58,6 +58,7 @@ DEFAULT_CONFIG['Colors'] = {
 	'id': 'yellow',
 	'content': 'default',
 	'context': 'cyan',
+	'overtime': 'red',
 	'deadline': 'cyan',
 	'priority': 'green',
 	'done': 'green'
@@ -653,12 +654,12 @@ def get_task_string_components(task, ctx, ascii_=False, highlight=None):
 	deadline = get_datetime(task['deadline'])
 	if deadline is not None:
 		remaining = deadline - NOW
-		user_friendly = utils.parse_remaining(remaining)
+		user_friendly , isOvertime = utils.parse_remaining(remaining)
 		remaining_str = '{} {} remaining'.format(
 			TIME_ICON[ascii_],
 			user_friendly
 		)
-		remaining_str = cstr(remaining_str, clr('deadline'))
+		remaining_str = cstr(remaining_str, clr('overtime')) if isOvertime else cstr(remaining_str, clr('deadline'))
 
 	prio_str = ''
 	priority = task['priority']
